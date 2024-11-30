@@ -19,8 +19,9 @@ func main() {
 
 	// Set flags and validate args
 	setup.InitFlags()
-	parsed, err := parser.Parse(setup.GetArgs())
-	if err != nil {
+	parsed, argsErr := parser.Parse(setup.GetArgs())
+	if argsErr != parser.ValidArgs {
+		err = parsed.FmtArgsErr(argsErr)
 		fmt.Fprintf(os.Stderr, "aocgofetch: %s", err)
 		os.Exit(1)
 	}

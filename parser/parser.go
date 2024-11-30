@@ -13,7 +13,8 @@ const (
 type ArgsErr int
 
 const (
-	BadArgsAmount ArgsErr = iota
+	ValidArgs ArgsErr = iota
+	BadArgsAmount
 	YearArgNotInt
 	DayArgNotInt
 	YearArgInvalid
@@ -64,43 +65,43 @@ func getMaxAocDay(year int) int {
 	return maxDay
 }
 
-func Parse(args []string) (ParsedArgs, error) {
+func Parse(args []string) (ParsedArgs, ArgsErr) {
 	parsed := ParsedArgs{-1, -1, getMaxAocYear(), -1, "", "", len(args)}
 
 	if parsed.Length != 2 {
-		return parsed, parsed.fmtArgsErr(BadArgsAmount)
+		return parsed, BadArgsAmount
 	}
 
 	parsed.arg1, parsed.arg2 = args[0], args[1]
 
 	yearInt, err := strconv.Atoi(parsed.arg1)
 	if err != nil {
-		return parsed, parsed.fmtArgsErr(YearArgNotInt)
+		return parsed, YearArgNotInt
 	}
 
 	parsed.Year = yearInt
 
 	if yearInt < minAocYear || yearInt > parsed.MaxYear {
-		return parsed, parsed.fmtArgsErr(YearArgInvalid)
+		return parsed, YearArgInvalid
 	}
 
 	parsed.MaxDay = getMaxAocDay(yearInt)
 
 	dayInt, err := strconv.Atoi(parsed.arg2)
 	if err != nil {
-		return parsed, parsed.fmtArgsErr(DayArgNotInt)
+		return parsed, DayArgNotInt
 	}
 
 	parsed.Day = dayInt
 
 	if dayInt < 1 || dayInt > parsed.MaxDay {
-		return parsed, parsed.fmtArgsErr(DayArgInvalid)
+		return parsed, DayArgInvalid
 	}
 
-	return parsed, nil
+	return parsed, ValidArgs
 }
 
-func (p ParsedArgs) fmtArgsErr(ae ArgsErr) error {
+func (p ParsedArgs) FmtArgsErr(ae ArgsErr) error {
 	ArgsErrType := map[ArgsErr]string{
 		BadArgsAmount:  fmt.Sprintf("got %d args, need exactly 2: <day> <year>", p.Length),
 		YearArgNotInt:  fmt.Sprintf("%s: <year> is not an int", p.arg1),
