@@ -23,17 +23,17 @@ type ArgsState int
 
 const (
 	ValidArgs ArgsState = iota
-	YearNotAnInt
-	DayNotAnInt
-	YearInvalid
-	DayInvalid
+	YearArgNotInt
+	DayArgNotInt
+	YearArgInvalid
+	DayArgInvalid
 )
 
 var ArgsErrType = map[ArgsState]string{
-	YearNotAnInt: "Could not convert year argument to int",
-	DayNotAnInt:  "Could not convert day argument to int",
-	YearInvalid:  fmt.Sprintf("Year must be between 2015 and %d", getMaxAocYear()),
-	DayInvalid:   "Day must be between 1 and 25",
+	YearArgNotInt:  "Could not convert year argument to int",
+	DayArgNotInt:   "Could not convert day argument to int",
+	YearArgInvalid: fmt.Sprintf("Year must be between 2015 and %d", getMaxAocYear()),
+	DayArgInvalid:  "Day must be between 1 and 25",
 }
 
 func GetYearAndDay(args []string) (int64, int64, ArgsState) {
@@ -43,17 +43,17 @@ func GetYearAndDay(args []string) (int64, int64, ArgsState) {
 	// Validate year
 	year, err := strconv.ParseInt(yearArg, 10, 64)
 	if err != nil {
-		return -1, -1, YearNotAnInt
+		return -1, -1, YearArgNotInt
 	} else if year < minAocYear || year > getMaxAocYear() {
-		return -1, -1, YearInvalid
+		return -1, -1, YearArgInvalid
 	}
 
 	// Validate day
 	day, err := strconv.ParseInt(dayArg, 10, 64)
 	if err != nil {
-		return -1, -1, DayNotAnInt
+		return -1, -1, DayArgNotInt
 	} else if day < 1 || day > 25 {
-		return -1, -1, DayInvalid
+		return -1, -1, DayArgInvalid
 	}
 
 	return year, day, ValidArgs
