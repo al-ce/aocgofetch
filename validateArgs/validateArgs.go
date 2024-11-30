@@ -37,7 +37,6 @@ var ArgsErrType = map[ArgsState]string{
 }
 
 func GetYearAndDay(args []string) (int64, int64, ArgsState) {
-
 	yearArg, dayArg := args[0], args[1]
 
 	// Validate year

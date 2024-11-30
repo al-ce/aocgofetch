@@ -6,8 +6,6 @@ import (
 	"net/http"
 )
 
-
-
 func GetPuzzleInput(year, day int64, sessionCookie string) (string, error) {
 	puzzleUrl := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
 
@@ -18,8 +16,8 @@ func GetPuzzleInput(year, day int64, sessionCookie string) (string, error) {
 		return "", err
 	}
 
-	req.AddCookie(&http.Cookie {
-		Name: "session",
+	req.AddCookie(&http.Cookie{
+		Name:  "session",
 		Value: sessionCookie,
 	})
 
