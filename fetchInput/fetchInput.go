@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func GetPuzzleInput(year, day int64, sessionCookie string) (string, error) {
-	puzzleUrl := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
+func GetPuzzleInput(year, day string, sessionCookie string) (string, error) {
+	puzzleUrl := fmt.Sprintf("https://adventofcode.com/%s/day/%s/input", year, day)
 
 	client := &http.Client{}
 

@@ -6,15 +6,6 @@ import (
 	"time"
 )
 
-func getMaxAocYear() int64 {
-	now := time.Now()
-	year := now.Year()
-	if now.Month() == time.December && now.Day() < 26 {
-		year--
-	}
-	return int64(year)
-}
-
 const (
 	minAocYear = 2015
 )
@@ -34,32 +25,46 @@ var ArgsErrType = map[ArgsState]string{
 	BadArgsAmount:  "need exactly two args: <day> <year>",
 	YearArgNotInt:  "could not convert year argument to int",
 	DayArgNotInt:   "could not convert day argument to int",
-	YearArgInvalid: fmt.Sprintf("Year must be between 2015 and %d", getMaxAocYear()),
-	DayArgInvalid:  "day must be between 1 and 25",
+	DayArgInvalid:  fmt.Sprintf("day must be between 1 and %d", getMaxAocDay()),
+	YearArgInvalid: fmt.Sprintf("year must be between 2015 and %d", getMaxAocYear()),
 }
 
-func GetYearAndDay(args []string) (int64, int64, ArgsState) {
+func getMaxAocYear() int {
+	now := time.Now()
+	maxYear := now.Year()
+	if now.Month() < time.December {
+		maxYear--
+	}
+	return maxYear
+}
+
+func getMaxAocDay() int {
+	maxYear, maxDay := getMaxAocYear(), 25
+	thisYear, today := time.Now().Year(), time.Now().Day()
+	if thisYear == maxYear && today <= 25 {
+		maxDay = today
+	}
+	return maxDay
+}
+
+func GetYearAndDay(args []string) (string, string, ArgsState) {
 	if len(args) != 2 {
-		return -1, -1, BadArgsAmount
+		return "", "", BadArgsAmount
 	}
 
 	yearArg, dayArg := args[0], args[1]
 
-	// Validate year
-	year, err := strconv.ParseInt(yearArg, 10, 64)
-	if err != nil {
-		return -1, -1, YearArgNotInt
-	} else if year < minAocYear || year > getMaxAocYear() {
-		return -1, -1, YearArgInvalid
+	if yearInt, err := strconv.Atoi(yearArg); err != nil {
+		return "", "", YearArgNotInt
+	} else if yearInt < minAocYear || yearInt > getMaxAocYear() {
+		return "", "", YearArgInvalid
 	}
 
-	// Validate day
-	day, err := strconv.ParseInt(dayArg, 10, 64)
-	if err != nil {
-		return -1, -1, DayArgNotInt
-	} else if day < 1 || day > 25 {
-		return -1, -1, DayArgInvalid
+	if dayInt, err := strconv.Atoi(dayArg); err != nil {
+		return "", "", DayArgNotInt
+	} else if dayInt < 1 || dayInt > getMaxAocDay() {
+		return "", "", DayArgInvalid
 	}
 
-	return year, day, ValidArgs
+	return yearArg, dayArg, ValidArgs
 }
