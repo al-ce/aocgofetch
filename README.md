@@ -39,6 +39,6 @@ Give the year (2015-present) and day (1-25) as arguments.
 The puzzle input will print to `stdout`:
 
 ```bash
-❯ ./aocgofetch 2015 4
+❯ aocgofetch 2015 4
 ckczppom
 ```
