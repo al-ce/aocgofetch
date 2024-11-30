@@ -31,11 +31,11 @@ const (
 )
 
 var ArgsErrType = map[ArgsState]string{
-	BadArgsAmount:  "Need exactly two args: <day> <year>",
-	YearArgNotInt:  "Could not convert year argument to int",
-	DayArgNotInt:   "Could not convert day argument to int",
+	BadArgsAmount:  "need exactly two args: <day> <year>",
+	YearArgNotInt:  "could not convert year argument to int",
+	DayArgNotInt:   "could not convert day argument to int",
 	YearArgInvalid: fmt.Sprintf("Year must be between 2015 and %d", getMaxAocYear()),
-	DayArgInvalid:  "Day must be between 1 and 25",
+	DayArgInvalid:  "day must be between 1 and 25",
 }
 
 func GetYearAndDay(args []string) (int64, int64, ArgsState) {

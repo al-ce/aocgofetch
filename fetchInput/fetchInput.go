@@ -25,9 +25,9 @@ func GetPuzzleInput(year, day int64, sessionCookie string) (string, error) {
 
 	if resp.StatusCode != 200 {
 		err = fmt.Errorf(
-			"Expected Status 200, got %d\nfor URL %s",
-			resp.StatusCode,
+			"could not fetch %s status %d",
 			puzzleUrl,
+			resp.StatusCode,
 		)
 		return "", err
 	}
