@@ -23,6 +23,7 @@ type ArgsState int
 
 const (
 	ValidArgs ArgsState = iota
+	BadArgsAmount
 	YearArgNotInt
 	DayArgNotInt
 	YearArgInvalid
@@ -30,6 +31,7 @@ const (
 )
 
 var ArgsErrType = map[ArgsState]string{
+	BadArgsAmount:  "Need exactly two args: <day> <year>",
 	YearArgNotInt:  "Could not convert year argument to int",
 	DayArgNotInt:   "Could not convert day argument to int",
 	YearArgInvalid: fmt.Sprintf("Year must be between 2015 and %d", getMaxAocYear()),
@@ -37,6 +39,10 @@ var ArgsErrType = map[ArgsState]string{
 }
 
 func GetYearAndDay(args []string) (int64, int64, ArgsState) {
+	if len(args) != 2 {
+		return -1, -1, BadArgsAmount
+	}
+
 	yearArg, dayArg := args[0], args[1]
 
 	// Validate year
