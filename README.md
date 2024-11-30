@@ -2,7 +2,8 @@
 
 Fetches Advent of Code puzzle inputs and prints to standard out.
 
-![screenshot](https://github.com/user-attachments/assets/78a7cd4a-e4b2-4b19-826c-f6c868fae363)
+![screenshot](https://github.com/user-attachments/assets/eeee3242-2717-43e6-b456-3c52835d4882)
+
 
 ## Installation
 
