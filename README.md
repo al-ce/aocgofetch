@@ -2,6 +2,8 @@
 
 Fetches Advent of Code puzzle inputs and prints to standard out.
 
+![screenshot](https://github.com/user-attachments/assets/78a7cd4a-e4b2-4b19-826c-f6c868fae363)
+
 ## Installation
 
 Clone and build with `go build -o <path-to-binary>`
