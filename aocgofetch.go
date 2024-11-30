@@ -8,7 +8,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/al-ce/aocgofetch/fetchInput"
-	"github.com/al-ce/aocgofetch/validateArgs"
+	"github.com/al-ce/aocgofetch/parser"
 )
 
 func loadEnv() (string, error) {
@@ -53,15 +53,15 @@ func main() {
 	// Set flags and validate args
 	initFlags()
 	args := flag.Args()
-	year, day, argsState := validateArgs.GetYearAndDay(args)
+	parsed, err := parser.Parse(args)
 
-	if argsState != validateArgs.ValidArgs {
-		fmt.Fprintf(os.Stderr, "aocgofetch: %s", argsState.Error(args))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "aocgofetch: %s", err)
 		os.Exit(1)
 	}
 
 	// Fetch the puzzle input
-	input, err := fetchInput.GetPuzzleInput(year, day, sessionCookie)
+	input, err := fetchInput.GetPuzzleInput(parsed.Year, parsed.Day, sessionCookie)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "aocgofetch: %s\n", err)
 		os.Exit(1)
