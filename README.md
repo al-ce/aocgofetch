@@ -6,7 +6,15 @@ Fetches Advent of Code puzzle inputs and prints to standard out.
 
 ## Installation
 
-Clone and build with `go build -o <path-to-binary>`
+Install with go >= 1.17
+
+```bash
+go install github.com/al-ce/aocgofetch@latest
+```
+
+Or clone this repository and build with `go build -o <path-to-binary>`.
+
+This project uses [joho/gotodenv](https://github.com/joho/godotenv) as a dependency.
 
 ## Usage
 
