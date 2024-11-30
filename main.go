@@ -11,22 +11,25 @@ import (
 	"github.com/al-ce/aoc-go-fetch/validateArgs"
 )
 
-func loadEnv() {
+func loadEnv() (string, error) {
 	if err := godotenv.Load(); err != nil {
-		fmt.Fprintf(os.Stderr, ".env file not found or couldn't be loaded: %v", err)
-		fmt.Fprintf(os.Stderr, "Add your AoC session cookie to the .env file")
-		os.Exit(1)
+		err = fmt.Errorf(".env file not found or couldn't be loaded: %v", err)
+		return "", err
 	}
+	sessionCookie := os.Getenv("AOC_SESSION")
+	if sessionCookie == "" {
+		err := fmt.Errorf("Set AOC_SESSION environment variable")
+		return "", err
+	}
+	return sessionCookie, nil
 }
 
 func main() {
-	loadEnv()
-
-	verbose := flag.Bool("v", false, "verbose output")
-
-	flag.Parse()
-
-	args := flag.Args()
+	sessionCookie, err := loadEnv()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "\nEnvironment Error: %s\n", err)
+		os.Exit(1)
+	}
 
 	year, day, argsState := validateArgs.GetYearAndDay(args)
 
@@ -42,7 +45,7 @@ func main() {
 		fmt.Printf("\n\tFetching input for AoC %d day %d...\n", year, day)
 	}
 
-	input, err := fetchInput.GetPuzzleInput(year, day)
+	input, err := fetchInput.GetPuzzleInput(year, day, sessionCookie)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nFetch Error: %s\n", err)
 		return

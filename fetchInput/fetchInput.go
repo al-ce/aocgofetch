@@ -4,18 +4,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 )
 
 
-func GetPuzzleInput(year, day int64) (string, error) {
-	puzzleUrl := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
 
-	sessionCookie := os.Getenv("AOC_SESSION")
-	if sessionCookie == "" {
-		err := fmt.Errorf("Set AOC_SESSION environment variable")
-		return "", err
-	}
+func GetPuzzleInput(year, day int64, sessionCookie string) (string, error) {
+	puzzleUrl := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
 
 	client := &http.Client{}
 
