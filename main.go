@@ -24,32 +24,50 @@ func loadEnv() (string, error) {
 	return sessionCookie, nil
 }
 
+func initFlags() {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Advent of Code Input Fetcher\n\n")
+
+		fmt.Fprintf(os.Stderr, "Usage:\n  %s [options] <day> <year>\n\n", os.Args[0])
+
+		fmt.Fprintf(os.Stderr, "Arguments:\n")
+		fmt.Fprintf(os.Stderr, "  day\t\tDay of the puzzle (1-25)\n")
+		fmt.Fprintf(os.Stderr, "  year\t\tYear of the puzzle (2015-present)\n\n")
+
+		fmt.Fprintf(os.Stderr, "\nExample:\n")
+		fmt.Fprintf(os.Stderr, "  Get day 1 input from 2023:\n")
+		fmt.Fprintf(os.Stderr, "    $ %s 1 2023\n", os.Args[0])
+	}
+
+	flag.Parse()
+}
+
 func main() {
+	// Ensure user set their session cookie in the .env file
 	sessionCookie, err := loadEnv()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nEnvironment Error: %s\n", err)
 		os.Exit(1)
 	}
 
+	// Set flags and validate args
+	initFlags()
+	args := flag.Args()
 	year, day, argsState := validateArgs.GetYearAndDay(args)
 
 	if argsState != validateArgs.ValidArgs {
 		fmt.Fprintf(os.Stderr, "\nArguments Error: %s\n", validateArgs.ArgsErrType[argsState])
-		return
+		os.Exit(1)
 	}
 
-	if *verbose {
-		fmt.Println("\n\t❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️")
-		fmt.Println("\t❄️Advent of Code Puzzle Input Fetcher ❄️")
-		fmt.Println("\t❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️")
-		fmt.Printf("\n\tFetching input for AoC %d day %d...\n", year, day)
-	}
-
+	// Fetch the puzzle input
 	input, err := fetchInput.GetPuzzleInput(year, day, sessionCookie)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nFetch Error: %s\n", err)
-		return
+		os.Exit(1)
 	}
 
-	fmt.Println("🪚 input", input)
+	fmt.Print(input)
+
+	os.Exit(0)
 }
