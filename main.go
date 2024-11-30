@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 
 	"github.com/al-ce/aoc-go-fetch/validateArgs"
 )
@@ -17,7 +18,7 @@ func main() {
 	year, day, argsState := validateArgs.GetYearAndDay(args)
 
 	if argsState != validateArgs.ValidArgs {
-		fmt.Printf("Arguments Error: %s\n", validateArgs.ArgsErrType[argsState])
+		fmt.Fprintf(os.Stderr, "Arguments Error: %s\n", validateArgs.ArgsErrType[argsState])
 		return
 	}
 
