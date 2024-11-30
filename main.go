@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/al-ce/aoc-go-fetch/fetchInput"
 	"github.com/al-ce/aoc-go-fetch/validateArgs"
 )
 
@@ -27,5 +28,10 @@ func main() {
 		fmt.Println("\t❄️Advent of Code Puzzle Input Fetcher ❄️")
 		fmt.Println("\t❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️❄️")
 		fmt.Printf("\n\tFetching input for AoC %d day %d...\n", day, year)
+	}
+
+	_, err := fetchInput.GetPuzzleInput(year, day)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Fetch Error: %s\n", err)
 	}
 }
