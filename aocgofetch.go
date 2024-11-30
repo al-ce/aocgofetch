@@ -7,8 +7,8 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/al-ce/aoc-go-fetch/fetchInput"
-	"github.com/al-ce/aoc-go-fetch/validateArgs"
+	"github.com/al-ce/aocgofetch/fetchInput"
+	"github.com/al-ce/aocgofetch/validateArgs"
 )
 
 func loadEnv() (string, error) {

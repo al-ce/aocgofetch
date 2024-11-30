@@ -1,4 +1,4 @@
-module github.com/al-ce/aoc-go-fetch
+module github.com/al-ce/aocgofetch
 
 go 1.23.3
 
