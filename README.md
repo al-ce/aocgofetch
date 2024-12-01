@@ -26,7 +26,11 @@ Authenticate yourself at `adventofcode.com` and get the value for the `session` 
 - Firefox: `Developer Tools > Storage > Cookies`
 - Chrome: `Developer Tools > Application > Cookies`
 
-Add that value to a `.env` file at the root of your working directory, like your directory where you're writing your puzzle-solvers.
+Add that value to an `AOC_SESSION` key to a `.env` file at the root of your working directory, like your directory where you're writing your puzzle-solvers.
+
+```bash
+AOC_SESSION="yourCookieValue"
+```
 
 ### Check your `.gitignore`
 
